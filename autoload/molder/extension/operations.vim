@@ -1,7 +1,25 @@
 function! molder#extension#operations#init() abort
-  nnoremap <silent> <buffer> n :<c-u>call molder#extension#operations#newdir()<cr>
-  nnoremap <silent> <buffer> d :<c-u>call molder#extension#operations#delete()<cr>
-  nnoremap <silent> <buffer> r :<c-u>call molder#extension#operations#rename()<cr>
+  nnoremap <plug>(molder-operations-newdir) :<c-u>call molder#extension#operations#newdir()<cr>
+  nnoremap <plug>(molder-operations-delete) :<c-u>call molder#extension#operations#delete()<cr>
+  nnoremap <plug>(molder-operations-rename) :<c-u>call molder#extension#operations#rename()<cr>
+  nnoremap <plug>(molder-operations-command) :<c-u>call molder#extension#operations#command()<cr>
+  nnoremap <plug>(molder-operations-shell) :<c-u>call molder#extension#operations#shell()<cr>
+
+  if !hasmapto('<plug>(molder-operations-newdir)')
+    nmap <buffer> n <plug>(molder-operations-newdir)
+  endif
+  if !hasmapto('<plug>(molder-operations-delete)')
+    nmap <buffer> d <plug>(molder-operations-delete)
+  endif
+  if !hasmapto('<plug>(molder-operations-rename)')
+    nmap <buffer> r <plug>(molder-operations-rename)
+  endif
+  if !hasmapto('<plug>(molder-operations-command)')
+    nmap <buffer> ! <plug>(molder-operations-command)
+  endif
+  if !hasmapto('<plug>(molder-operations-shell)')
+    nmap <buffer> s <plug>(molder-operations-shell)
+  endif
 endfunction
 
 function! molder#extension#operations#newdir() abort
@@ -73,5 +91,14 @@ function! molder#extension#operations#rename() abort
     return
   endtry
   call molder#reload()
+endfunction
+
+function! molder#extension#operations#command() abort
+  let l:path = molder#curdir() .. molder#current()
+  call feedkeys(':! ' .. shellescape(l:path) .. "\<c-home>\<right>", 'n')
+endfunction
+
+function! molder#extension#operations#shell() abort
+  call term_start(&shell, {'cwd': molder#curdir()})
 endfunction
 
