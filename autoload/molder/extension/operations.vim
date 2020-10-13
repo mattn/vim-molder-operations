@@ -60,7 +60,7 @@ function! molder#extension#operations#delete() abort
     endtry
   else
     try
-      if delete(l:path, 'f') == -1
+      if delete(l:path) == -1
         throw 'failed'
       endif
     catch
