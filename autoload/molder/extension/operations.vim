@@ -45,7 +45,7 @@ endfunction
 
 function! molder#extension#operations#delete() abort
   let l:name = molder#current()
-  if confirm('Delete?: ' .. l:name, "&Yes\n&No\n&Force", 2) ==# 2
+  if confirm('Delete?: ' .. l:name, "&Yes\n&No\n&Force", 2) =~# '^[02]$'
     return
   endif
   let l:path = molder#curdir() .. l:name
