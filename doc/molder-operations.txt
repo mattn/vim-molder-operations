@@ -31,7 +31,7 @@ vim-plug: add below to .vimrc
 ==============================================================================
 KEYMAPPINGS                                      *molder-operations-keymappings*
 
-* "<leader>n": create directory. <plug>(molder-operations-mkdir)
+* "<leader>n": create directory. <plug>(molder-operations-newdir)
 * "<leader>d": delete. <plug>(molder-operations-delete)
 * "<leader>r": rename. <plug>(molder-operations-rename)
 * "<leader>!": edit command line for making command.
