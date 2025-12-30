@@ -23,6 +23,11 @@ function! molder#extension#operations#init() abort
 endfunction
 
 function! molder#extension#operations#newdir() abort
+  if !molder#is_local()
+    call molder#error('Operation not supported for remote paths')
+    return
+  endif
+
   let l:name = input('Create directory: ')
   if empty(l:name)
     return
@@ -44,6 +49,11 @@ function! molder#extension#operations#newdir() abort
 endfunction
 
 function! molder#extension#operations#delete() abort
+  if !molder#is_local()
+    call molder#error('Operation not supported for remote paths')
+    return
+  endif
+
   let l:name = molder#current()
   if confirm('Delete?: ' .. l:name, "&Yes\n&No\n&Force", 2) =~# '^[02]$'
     return
@@ -72,6 +82,11 @@ function! molder#extension#operations#delete() abort
 endfunction
 
 function! molder#extension#operations#rename() abort
+  if !molder#is_local()
+    call molder#error('Operation not supported for remote paths')
+    return
+  endif
+
   let l:old = substitute(molder#current(), '/$', '', '')
   let l:new = input('Rename: ', l:old)
   if empty(l:new) || l:new ==# l:old
@@ -94,11 +109,21 @@ function! molder#extension#operations#rename() abort
 endfunction
 
 function! molder#extension#operations#command() abort
+  if !molder#is_local()
+    call molder#error('Operation not supported for remote paths')
+    return
+  endif
+
   let l:path = molder#curdir() .. molder#current()
   call feedkeys(':! ' .. shellescape(l:path) .. "\<c-home>\<right>", 'n')
 endfunction
 
 function! molder#extension#operations#shell() abort
+  if !molder#is_local()
+    call molder#error('Operation not supported for remote paths')
+    return
+  endif
+
   call term_start(&shell, {'cwd': molder#curdir()})
 endfunction
 
